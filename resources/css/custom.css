@@ -1,0 +1,37 @@
+/* * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+} */
+
+:root {
+    --primary: #CC9423;
+    --secondary: #F9E18B;
+    --tertiary: #EBEFEF;
+    --accent: #23BAD9;
+    --white: #EEF5FF;
+}
+
+.primary-bg {
+    background-color: var(--primary);
+}
+
+.secondary-bg {
+    background-color: var(--secondary);
+}
+
+.tertiary-bg {
+    background-color: var(--tertiary);
+}
+
+.accent-bg {
+    background-color: var(--accent);
+}
+
+.white-text {
+    color: var(--white);
+}
+
+body {
+    background-color: var(--white);
+}
