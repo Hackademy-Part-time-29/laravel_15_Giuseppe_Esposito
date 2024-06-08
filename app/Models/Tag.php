@@ -12,4 +12,8 @@ class Tag extends Model
     //indichiamo le colonne "fillable" cioè riempibili
     protected $fillable = ['name', 'description'];
 
+    public function articles(){
+        return $this->belongsToMany(Article::class);
+     }
+
 }

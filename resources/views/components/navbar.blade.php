@@ -16,7 +16,7 @@
           <a class="nav-link" href="{{route('articles.index')}}">Articoli</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Crea un tag</a>
+          <a class="nav-link" href="{{route('tags.create')}}">Crea un tag</a>
         </li>
       </ul>
     </div>
