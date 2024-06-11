@@ -22,8 +22,8 @@ class UpdateArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required  |min:3 | max:50 | unique:articles,name,' . $this->article->id,
-            'description'=>'required',
+            'name'=>'required |min:3 | max:50 | unique:articles,name,' . $this->article->id,
+            'description'=>'required | min:5 | max:255',
             'cover'=>'sometimes | mimes:jpg,bmp,png',
         ];
     }

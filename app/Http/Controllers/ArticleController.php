@@ -21,7 +21,7 @@ class ArticleController extends Controller
     {
         $title = 'I nostri articoli:';
 
-        $articles = Article::orderBy('created_at', 'DESC');
+        $articles = Article::all();  //orderBy('created_at', 'DESC') mi funziona solo con paginate();
         return view('articles.index', compact('title', 'articles'));
     }
 

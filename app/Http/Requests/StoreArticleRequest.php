@@ -22,8 +22,8 @@ class StoreArticleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required | min:5 | max:50',
-            'description'=>'required | min:5 | max:50',
+            'name'=>'required | min:3 | max:50',
+            'description'=>'required | min:5 | max:255',
             'cover'=> 'sometimes | mimes:jpg,bmp,png',
         ];
     }
