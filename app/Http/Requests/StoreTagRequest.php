@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreArticleRequest extends FormRequest
+class StoreTagRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,24 +23,18 @@ class StoreArticleRequest extends FormRequest
     {
         return [
             'name'=>'required | min:3 | max:50',
-            'description'=>'required | min:5 | max:255',
-            'cover'=> 'sometimes | mimes:jpg,bmp,png',
-            'tags'=>'required | array ',
-            'tags.*'=>'exists:tags,id',  //per controllare ogni singolo elemento di un array, usiamo ad es. tags.* 
+            'description'=>'required | min:5 | max:255', 
         ];
     }
 
     public function messages(){
         return  [
-                    'name.required' => 'Inserisci il titolo',
-                    'name.min' => 'Il titolo è troppo corto',
-                    'name.max' => 'Il titolo è troppo lungo',               //messaggi di errore personalizzati
+                    'name.required' => 'Inserisci il tag',
+                    'name.min' => 'Il nome del tag è troppo corto',
+                    'name.max' => 'Il nome del tag è troppo lungo',               //messaggi di errore personalizzati
                     'description.required' => 'Inserisci il contenuto',
                     'description.min' => 'Il contenuto è troppo corto',
                     'description.max' => 'Il contenuto è troppo lungo',
-                    'cover.mimes' => 'Formato del file non valido',
-                    'tags.required' => 'Inserisci un tag',
-                    'tags.*'=>'Tag non valido',
         ];
     }
 }

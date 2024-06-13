@@ -1,6 +1,6 @@
 <x-app>
     <br>
-    <h3>Crea un nuovo articolo</h3>
+    <h1>Crea un nuovo articolo</h1>
     <div class="row">
         @if (session()->has('success'))
         <div class="alert alert-success" role="alert">
@@ -28,6 +28,20 @@
                 @enderror
                 </div>
                 <div class="mb-3">
+                    <label for="tag_id" class="form-label">Tags</label>
+                    <div class="btn-group" role="group" name='tag_id' required>
+                        @foreach ($tags as $tag)
+                            <input type="checkbox" class="btn-check" id="tag{{$tag->id}}" autocomplete="off"  name="tags[]" value="{{$tag->id}}">
+                            <label class="btn btn-outline-primary" for="tag{{$tag->id}}">{{$tag->name}}</label>
+                        @endforeach
+                </div>
+                @error('tags')
+                    <span class="small text-danger">{{$message}}</span>
+                @enderror
+                @error('tags.*')
+                    <span class="small text-danger">{{$message}}</span>
+                @enderror
+                <div class="my-3">
                     <label for="formFile mb-3" class="form-label">Carica un'immagine di copertina</label>
                     <input class="form-control" type="file" id="formFile" name="cover">
                 @error('cover')

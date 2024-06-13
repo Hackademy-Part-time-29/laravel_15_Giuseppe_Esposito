@@ -13,3 +13,5 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::resource('articles', ArticleController::class);
 
 Route::resource('tags', TagController::class);
+
+Route::get('/articles-by-tag/{tag}', [ArticleController::class, 'articlesByTag'])->name('articles.byTag');

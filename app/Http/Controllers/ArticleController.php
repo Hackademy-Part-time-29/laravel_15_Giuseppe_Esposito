@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Http\Requests\StoreArticleRequest;
 
+use App\Http\Requests\UpdateArticleRequest;
+
 class ArticleController extends Controller
 {
     /**
@@ -21,8 +23,11 @@ class ArticleController extends Controller
     {
         $title = 'I nostri articoli:';
 
+        $tags = Tag::all();
+
         $articles = Article::all();  //orderBy('created_at', 'DESC') mi funziona solo con paginate();
-        return view('articles.index', compact('title', 'articles'));
+
+        return view('articles.index', compact('title', 'tags', 'articles'));
     }
 
     /**
@@ -32,7 +37,9 @@ class ArticleController extends Controller
     {
         $tags = Tag::all();
 
-        return view('articles.create', compact('tags'));
+        $articles = Article::all();
+
+        return view('articles.create', compact('tags', 'articles'));
     }
 
     /**
@@ -45,13 +52,22 @@ class ArticleController extends Controller
             'description'=>$request->description,
         ]);
 
+        //attach ci permette di creare nuove righe nella tabella pivot
+        //accetta in inpunt un array di ID
+
+        $article->tags()->attach($request->tags);
+        
+
          // Salviamo l'immagine
 
          if($request->hasFile('cover')){
             
-            $article->update([
-                'cover' => $request->file('cover')->storeAs('public/covers/'.$article->id, 'cover.jpg'),
-            ]);
+            $article->cover=$request->file('cover')->storeAs('public/covers/'. $article->id, 'cover.jpg');
+            $article->save();
+
+            // $article->update([
+            //     'cover' => $request->file('cover')->storeAs('public/covers/'.$article->id, 'cover.jpg'),
+            // ]);
 
             // $path=$request->file('cover')->storeAs('public/covers/'.$article->id, 'cover.jpg');
             // $article->cover=$path;
@@ -65,9 +81,11 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Article $article)
+    public function show($id)
     {
         $title = "Breve descrizione dell'articolo";
+
+        $article = Article::findOrFail($id);
         
         return view('articles.show', compact('title', 'article'));
     }
@@ -77,13 +95,15 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+        $tags = Tag::all();
+
+        return view('articles.edit', compact('article', 'tags'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(UpdateArticleRequest $request, Article $article)
     {
         $article->update([
             'name'=>$request->name,
@@ -91,7 +111,7 @@ class ArticleController extends Controller
         ]);
 
         if($request->hasFile('cover')){
-            $path=$request->file('cover')->storeAs('public/covers/'.$article->id, 'cover.jpg');
+            $path=$request->file('cover')->storeAs('public/covers/'. $article->id, 'cover.jpg');
             $article->cover=$path;
             $article->save();
         }
@@ -110,6 +130,17 @@ class ArticleController extends Controller
         
         $article->delete();
 
+        $article->tags()->detach();
+
         return redirect()->back()->with(['success'=>'Articolo eliminato con successo']);
+    }
+
+    public function articlesByTag(Tag $tag)
+    {
+        $title = 'Articoli per tag:';
+
+        $articles =$tag->articles->sortByDesc('created_at');
+
+        return view('articles.index', compact('title','articles'));
     }
 }

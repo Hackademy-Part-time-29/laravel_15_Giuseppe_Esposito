@@ -29,7 +29,21 @@
                     <span class="small text-danger">{{$message}}</span>
                 @enderror
                 </div>
-                <div class="mb-3">
+                <div class="my-3">
+                    <label for="tag_id" class="form-label">Tags</label>
+                    <div class="btn-group" role="group" name='tag_id' required>
+                    @foreach ($tags as $tag)
+                        <input type="checkbox" class="btn-check" id="tag{{$tag->id}}" autocomplete="off"  name="tags[]" value="{{old('tag_id', $tag->id)}}">
+                        <label class="btn btn-outline-primary" for="tag{{$tag->id}}">{{$tag->name}}</label>
+                    @endforeach
+                </div>
+                @error('tags')
+                    <span class="small text-danger">{{$message}}</span>
+                @enderror
+                @error('tags.*')
+                    <span class="small text-danger">{{$message}}</span>
+                @enderror
+                <div class="my-3">
                     <p>Immagine attuale</p>
                     <img src="{{Storage::url($article->cover)}}" alt="">
                 </div>
